@@ -1,5 +1,13 @@
 ---
+import QRCode from "../components/QRCode.svelte";
 
+const {request} = Astro;
+const {url: pageUrl} = request;
+const {searchParams} = new URL(pageUrl);
+const url = searchParams.get("url") ?? "https://www.astro.com";
+
+const title = "QR Generator";
+const description = "Generate QR Code";
 ---
 
 <html lang="en">
@@ -11,6 +19,18 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<main>
+			<h1>QR Generator</h1>
+			<form action="">
+				<h2>Enter URL</h2>
+				<div>
+					<label for="url">URL</label>
+					<input type="url" id="url" name="url" value={url}/>
+					<button type="submit">Generate</button>
+				</div>
+			</form>
+			<p>{url}</p>
+			<QRCode client:load url={url} />
+		</main>
 	</body>
 </html>
