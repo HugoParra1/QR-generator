@@ -1,10 +1,11 @@
 ---
 import QRCode from "../components/QRCode.svelte";
+import "../styles/global.css";
 
-const {request} = Astro;
-const {url: pageUrl} = request;
-const {searchParams} = new URL(pageUrl);
-const url = searchParams.get("url") ?? "https://www.astro.com";
+const { request } = Astro;
+const { url: pageUrl } = request;
+const { searchParams } = new URL(pageUrl);
+const url = searchParams.get("url") ?? "https://www.github.com";
 
 const title = "QR Generator";
 const description = "Generate QR Code";
@@ -16,21 +17,62 @@ const description = "Generate QR Code";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{title}</title>
 	</head>
 	<body>
 		<main>
-			<h1>QR Generator</h1>
-			<form action="">
-				<h2>Enter URL</h2>
-				<div>
-					<label for="url">URL</label>
-					<input type="url" id="url" name="url" value={url}/>
-					<button type="submit">Generate</button>
+			<h1
+				class="text-3xl font-bold flex justify-center py-6 bg-blue-400 text-white"
+			>
+				QR Generator
+			</h1>
+			<form
+				action=""
+				class="max-w-sm mx-auto mt-10 shadow-xl rounded px-8 pt-6 pb-8 mb-4 bg-blue-400 hover:scale-105 transition"
+			>
+				<div class="mb-5 flex flex-col gap-4">
+					<label
+						for="url"
+						class="block mb-2 text-sm font-medium text-white dark:text-white"
+						>URL</label
+					>
+					<input
+						type="url"
+						id="url"
+						name="url"
+						value={url}
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					/>
+					<button
+						type="submit"
+						class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+						>Generate</button
+					>
 				</div>
 			</form>
-			<p>{url}</p>
-			<QRCode client:load url={url} />
+			<div>
+				<a
+					href={url}
+					class="flex justify-center text-3xl hover:underline transition max-w-sm mx-auto"
+					>{url}</a
+				>
+				<div
+					class="flex justify-center max-w-sm shadow-xl mx-auto py-6 mt-10 pt-6 pb-6 rounded hover:scale-105 bg-blue-400 transition"
+				>
+					<QRCode client:load url={url} />
+				</div>
+			</div>
 		</main>
 	</body>
 </html>
+<style is:global>
+	:root {
+		color-scheme: light dark;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+	}
+	body {
+		background: #2e323d;
+	}
+</style>
